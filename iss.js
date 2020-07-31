@@ -46,4 +46,24 @@ const fetchCoordsByIP = function(ip, callback) {
   });
 };
 
-module.exports = { fetchMyIp, fetchCoordsByIP };
+const fetchISSFlyOverTimes = function(coods, callback) {
+  const lat = coods.latitude;
+  const lon = coods.longitude;
+  request(`http://api.open-notify.org/iss-pass.json?lat=${lat}&lon=${lon}`, (error, response, body) => {
+
+    if (error) {
+      callback(error, null);
+      return;
+    }
+
+    if (response.statusCode !== 200) {
+      callback(Error(`Status Code ${response.statusCode} when fetching ISS pass times: ${body}`), null);
+      return;
+    }
+    const data = JSON.parse(body).response;
+    callback(null, data);
+  });
+};
+
+
+module.exports = { fetchMyIp, fetchCoordsByIP, fetchISSFlyOverTimes };
