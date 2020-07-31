@@ -14,14 +14,12 @@ const fetchMyIp = function(callback) {
 
   // use request to fetch IP address from JSON API
   request(url, (error, response, body) => {
-    
     if (error) {
       return callback(error, null);
     }
     if (response.statusCode !== 200) {
       const msg = `status code ${response.statusCode} when fetching IP. Response: ${body}`;
       return callback(Error(msg), null);
-
     }
     const data = JSON.parse(body);
     const ip = data.ip;
@@ -29,5 +27,23 @@ const fetchMyIp = function(callback) {
   });
 };
 
+const fetchCoordsByIP = function(ip, callback) {
+  request(`https://ipvigilante.com/json/${ip}`, (error, response, body) => {
+    if (error) {
+      callback(error, null);
+      return;
+    }
 
-module.exports = { fetchMyIp };
+    if (response.statusCode !== 200) {
+      callback(Error(`Status Code ${response.statusCode} when fetching Coordinates for IP: ${body}`), null);
+      return;
+    }
+
+    const { latitude, longitude } = JSON.parse(body).data;
+
+    callback(null, { latitude, longitude });
+    return;
+  });
+};
+
+module.exports = { fetchMyIp, fetchCoordsByIP };
