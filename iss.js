@@ -22,7 +22,6 @@ const fetchMyIp = function(callback) {
       return callback(Error(msg), null);
     }
     const ip = JSON.parse(body).ip;
-    const ip = data.ip;
     callback(null, ip);
   });
 };
@@ -132,14 +131,9 @@ const nextISSTimesForMyLocation = function(callback) {
           return;
         }
         callback(null, data);
-
-
       });
     });
-    
-
-  });
-  
+  }); 
 };
 
 
