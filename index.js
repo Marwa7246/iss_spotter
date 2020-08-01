@@ -47,6 +47,10 @@ const printPassTimes = function(passTimes) {
 };
 
 
+
+if (require.main === module) {
+  //to be sure that this part is not excuted if the file is exported
+  //and required in another file (like require printPassTimes in index2)
   nextISSTimesForMyLocation((error, passTimes) => {
     if (error) {
       return console.log("It didn't work!", error);
@@ -54,5 +58,8 @@ const printPassTimes = function(passTimes) {
     // success, print out the deets!
     printPassTimes(passTimes);
   });
+}
 
 
+
+module.exports = { printPassTimes };
