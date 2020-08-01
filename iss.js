@@ -133,7 +133,7 @@ const nextISSTimesForMyLocation = function(callback) {
         callback(null, data);
       });
     });
-  }); 
+  });
 };
 
 
